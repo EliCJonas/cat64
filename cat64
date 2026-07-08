@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+
+import sys
+import secrets
+
+
+ver = "1.0"
+
+
+encodeDict = {
+    'K': 370, 'J': 360, 'U': 470, 'T': 460, 'W': 490, 'V': 480,
+    'Q': 430, 'P': 420, 'S': 450, 'R': 440, '3': 590, '4': 600,
+    '5': 610, '6': 620, 'Y': 510, 'X': 500, '7': 630, 'Z': 520,
+    '8': 640, '9': 650, '+': 660, '-': 670, '*': 680, '/': 690,
+    '=': 700, 'e': 50, 'd': 40, 'g': 70, 'f': 60, 'a': 10,
+    'c': 30, 'b': 20, 'm': 130, 'l': 120, 'o': 150, "'": 560,
+    'n': 140, 'i': 90, ' ': 530, 'h': 80, 'k': 110, 'j': 100,
+    'u': 210, 't': 200, 'w': 230, ')': 550, '(': 540, 'r': 180,
+    'v': 220, 'q': 170, 'p': 160, 's': 190, 'y': 250, 'x': 240,
+    '1': 570, 'z': 260, 'E': 310, 'D': 300, 'G': 330, 'F': 320,
+    'A': 270, '2': 580, 'C': 290, 'B': 280, 'M': 390, 'L': 380,
+    'O': 410, 'N': 400, 'I': 350, 'H': 340, ".": 710, "_": 720,
+    ",": 730, ":": 740, "#": 750, "^": 760, '"': 770,
+    "\\": 780, "[": 790, "]": 800, "{": 810, "}": 820
+}
+
+
+decodeDict = {v: k for k, v in encodeDict.items()}
+
+
+def encode(text, encrypt="r"):
+    data = ""
+
+    for char in text:
+        if char not in encodeDict:
+            raise ValueError(f"Unsupported character: {repr(char)}")
+
+        if data:
+            data += "99"
+
+        data += str(encodeDict[char])
+
+    if encrypt == "n" or encrypt is None:
+        return data
+
+    if encrypt == "r":
+        encrypt = secrets.randbits(16)
+
+    encrypt = int(encrypt)
+
+    cipher = ((int(data) ^ encrypt) * 65537) + encrypt
+
+    return str(cipher), encrypt
+
+
+def decode(num, key):
+    num = str(num).strip("'\"")
+    key = int(key)
+
+    data = ((int(num) - key) // 65537) ^ key
+
+    output = ""
+
+    for item in str(data).split("99"):
+        if int(item) not in decodeDict:
+            raise ValueError("Invalid key or corrupted data")
+
+        output += decodeDict[int(item)]
+
+    return output
+
+
+def usage():
+    print("""
+cat64 - standalone writo64 compatible encoder/decoder
+
+Usage:
+  cat64 encode <text> [key|r|n]
+  cat64 decode <cipher> <key>
+
+Examples:
+  cat64 encode "hello" r
+  cat64 decode 123456789 48291
+
+Modes:
+  r = random 16-bit key
+  n = no encryption
+""")
+
+
+def main():
+    if len(sys.argv) < 3:
+        usage()
+        return
+
+    mode = sys.argv[1]
+
+    if mode in ("encode", "-e"):
+        text = sys.argv[2]
+        key = sys.argv[3] if len(sys.argv) > 3 else "r"
+
+        result = encode(text, key)
+
+        if isinstance(result, tuple):
+            print("Cipher:")
+            print(result[0])
+            print()
+            print("Key:")
+            print(result[1])
+        else:
+            print(result)
+
+    elif mode in ("decode", "-d"):
+        if len(sys.argv) < 4:
+            print("Missing key.")
+            return
+
+        print(decode(sys.argv[2], sys.argv[3]))
+
+    else:
+        usage()
+
+
+if __name__ == "__main__":
+    main()
