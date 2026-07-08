@@ -36,6 +36,12 @@ Test:
 cat64
 ```
 
+Or install with Auro:
+
+```
+auro repo cat64
+```
+
 ## Usage
 
 ### Encode text
