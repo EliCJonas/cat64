@@ -1,12 +1,17 @@
-# cat64
+# <p align="center">cat64</p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Available_for-Auro-4c1" alt="Available for Auro" />
+  <a href="https://vibescale.github.io/#2">
+    <img src="https://vibescale.github.io/badge-bar/2.svg" alt="2/6 Artisanal | Vibescale" />
+  </a>
+</p>
 
-![Available for Auro](https://img.shields.io/badge/Available_for-Auro-4c1)
+<p align="center">
+  <i>A standalone command-line text encoder and decoder.</i>
+</p>
 
-[![2/6 AI-Assisted | Vibescale](https://vibescale.github.io/badge-bar/2.svg)](https://vibescale.github.io/#2)
-
-
-A standalone command-line text encoder and decoder.
+---
 
 ## Overview
 
