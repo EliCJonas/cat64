@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Available_for-Auro-4c1" alt="Available for Auro" />
   <a href="https://vibescale.github.io/#2">
-    <img src="https://vibescale.github.io/badge-bar/2.svg" alt="2/6 Artisanal | Vibescale" />
+    <img src="https://vibescale.github.io/badge-bar/2.svg" alt="2/6 AI-Assisted | Vibescale" />
   </a>
 </p>
 
